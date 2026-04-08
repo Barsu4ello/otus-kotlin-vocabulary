@@ -5,9 +5,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "vocabulary"
+rootProject.name = "lesson"
 
-includeBuild("lesson")
-includeBuild("vocabulary-be")
-
+include("m1l1-first")
 
