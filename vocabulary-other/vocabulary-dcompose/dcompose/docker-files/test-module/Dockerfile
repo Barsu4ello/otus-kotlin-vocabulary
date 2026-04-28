@@ -6,6 +6,7 @@ WORKDIR /app
 COPY vocabulary-be ./vocabulary-be
 COPY build-plugin ./build-plugin
 COPY lesson ./lesson
+COPY vocabulary-other ./vocabulary-other
 # Копируем gradle код
 COPY settings.gradle.kts gradle.properties gradlew ./
 COPY gradle ./gradle

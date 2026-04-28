@@ -9,5 +9,4 @@ rootProject.name = "vocabulary"
 
 includeBuild("lesson")
 includeBuild("vocabulary-be")
-
-
+includeBuild("vocabulary-other")
