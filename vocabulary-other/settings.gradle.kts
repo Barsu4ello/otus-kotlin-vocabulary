@@ -1,4 +1,4 @@
-rootProject.name = "vacabulary-other"
+rootProject.name = "vocabulary-other"
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -20,4 +20,5 @@ pluginManagement {
     }
 }
 
-include(":vocabulary-dcompose")
+include("vocabulary-dcompose")
+include("vocabulary-specs")

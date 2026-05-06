@@ -8,7 +8,6 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.the
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 @Suppress("unused")
@@ -22,15 +21,9 @@ internal class BuildPluginMultiplatform : Plugin<Project> {
         plugins.withId("org.jetbrains.kotlin.multiplatform") {
             extensions.configure<KotlinMultiplatformExtension> {
                 configureTargets(this@with)
-                sourceSets.configureEach {
-                    languageSettings.apply {
-                        languageVersion = "1.9"
-                        progressiveMode = true
-                        optIn("kotlin.time.ExperimentalTime")
-                    }
-                }
             }
         }
+
         repositories {
             mavenCentral()
         }
@@ -45,20 +38,7 @@ private fun KotlinMultiplatformExtension.configureTargets(project: Project) {
 //        vendor.set(JvmVendorSpec.AZUL)
     }
 
-    jvm {
-//        compilations.configureEach {
-//            compilerOptions.configure {
-//                jvmTarget.set(JvmTarget.valueOf("JVM_${libs.versions.jvm.compiler.get()}"))
-//            }
-//        }
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.valueOf("JVM_${libs.versions.jvm.compiler.get()}"))
-                }
-            }
-        }
-    }
+    jvm()
     linuxX64()
     macosArm64()
     macosX64()
