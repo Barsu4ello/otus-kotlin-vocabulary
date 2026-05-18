@@ -1,0 +1,109 @@
+services:
+
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: app-kotlin-otus-test:latest
+    depends_on:
+      - fluent-bit
+      - envoy
+    logging:
+      driver: json-file
+      options:
+        tag: app.logs
+
+  fluent-bit:
+    container_name: fluent-bit
+    image: fluent/fluent-bit:5.0.3
+    ports:
+      # необходимо открыть порты, которые используются плагином forward
+      - "24224:24224"
+      - "24224:24224/udp"
+      - "2020:2020"
+    environment:
+      - opensearch_host=${OPENSEARCH_HOST}
+      - opensearch_user=${OPENSEARCH_USER}
+      - opensearch_pass=${OPENSEARCH_PASS}
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./volumes/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./volumes/parsers.conf:/fluent-bit/etc/parsers.conf
+
+  opensearch:
+    container_name: opensearch
+    image: opensearchproject/opensearch:3.6.0
+    environment:
+      - discovery.type=single-node
+      - http.port=9200
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_PASS}
+    ports:
+      - '9200:9200'
+      - '9600:9600'
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -ku admin:adm-Password123! https://localhost:9200/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  dashboards:
+    image: opensearchproject/opensearch-dashboards:3.6.0
+    container_name: opensearch-dashboards
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+    depends_on:
+      opensearch:
+        condition: service_healthy
+
+  envoy:
+    image: envoyproxy/envoy:v1.29.0  # Use the official Envoy proxy image
+    volumes:
+      - ./volumes/envoy.yaml:/etc/envoy/envoy.yaml  # Mount your Envoy configuration file
+    ports:
+      - "8080:8080"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.0
+    #    ports:
+    #      - "8081:8080"
+    volumes:
+      - ./volumes/keycloak/import:/opt/keycloak/data/import
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      #      KEYCLOAK_IMPORT: "/tmp/realm-export.json"
+      KC_HEALTH_ENABLED: "true"
+    healthcheck:
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000;echo -e 'HEAD /health/ready HTTP/1.1\r\nHost: localhost:9000\r\nConnection: close\r\n\r\n' >&3;cat <&3" ]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    command:
+      - start-dev
+      - --import-realm
+      - --hostname=localhost
+      - --hostname-strict=false
+      - --proxy-headers=xforwarded
+
+volumes:
+  opensearch-data:

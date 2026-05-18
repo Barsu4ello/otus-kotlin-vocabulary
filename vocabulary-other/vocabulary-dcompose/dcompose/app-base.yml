@@ -1,0 +1,13 @@
+services:
+  app-base:
+    build:
+      context: ../../..
+      dockerfile: vocabulary-other/vocabulary-dcompose/dcompose/docker-files/test-module/Dockerfile
+    image: app-kotlin-otus-test:latest
+    depends_on:
+      - fluent-bit
+      - envoy
+    logging:
+      driver: json-file
+      options:
+        tag: app.logs

@@ -1,30 +1,23 @@
-plugins {
-    alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.kotlin.multiplatform) apply false
-}
-
 group = "ru.gorbunov.vocabulary"
 version = "0.0.1"
 
-val specDir = "${rootDir}/../vocabulary-other/vocabulary-specs/specs"
-extra["spec-v1"] = "$specDir/specs-word-v1.yml"
+subprojects {
+    group = rootProject.group
+    version = rootProject.version
 
-allprojects {
     repositories {
         mavenCentral()
     }
 }
 
-subprojects {
-    group = rootProject.group
-    version = rootProject.version
-}
-
 tasks {
-    register("build" ) {
-        description = "Сборка всех подпроектов"
+    register("buildInfra") {
         group = "build"
+        dependsOn(project(":vocabulary-dcompose").getTasksByName("publish",false))
+//        dependsOn(project(":ok-vocabulary-specs").getTasksByName("publish",false))
+//        dependsOn(project(":ok-vocabulary-swagger").getTasksByName("buildImages",false))
     }
+
     register("clean" ) {
         description = "Очистка всех подпроектов"
         group = "build"
@@ -45,4 +38,5 @@ tasks {
             }
         }
     }
+
 }

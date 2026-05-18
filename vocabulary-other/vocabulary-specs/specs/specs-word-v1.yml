@@ -1,0 +1,392 @@
+openapi: 3.0.3
+info:
+  title: "Vocabulary"
+  description: This is a place where users can learn words
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: word
+    description: Слово
+paths:
+  /word/create:
+    post:
+      tags:
+        - word
+      summary: Create word
+      operationId: wordCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WordCreateResponse'
+  /word/read:
+    post:
+      tags:
+        - word
+      summary: Read word
+      operationId: wordRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordReadRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WordReadResponse'
+  /word/update:
+    post:
+      tags:
+        - word
+      summary: Update word
+      operationId: wordUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WordUpdateResponse'
+  /word/delete:
+    post:
+      tags:
+        - word
+      summary: Delete word
+      operationId: wordDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WordDeleteResponse'
+  /word/search:
+    post:
+      tags:
+        - word
+      summary: Search word
+      operationId: wordSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WordSearchRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WordSearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/WordCreateRequest'
+          read:   '#/components/schemas/WordReadRequest'
+          update: '#/components/schemas/WordUpdateRequest'
+          delete: '#/components/schemas/WordDeleteRequest'
+          search: '#/components/schemas/WordSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/WordCreateResponse'
+          read:   '#/components/schemas/WordReadResponse'
+          update: '#/components/schemas/WordUpdateResponse'
+          delete: '#/components/schemas/WordDeleteResponse'
+          search: '#/components/schemas/WordSearchResponse'
+          init: '#/components/schemas/WordInitResponse'
+
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    WordId:
+      type: string
+      description: Идентификатор слова
+    WordLock:
+      type: string
+      description: Версия оптимистичной блокировки
+
+    BaseWord:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        english:
+          type: string
+          description: Слово на английском языке
+        russian:
+          type: string
+          description: Перевод на русский язык
+        partOfSpeech:
+          $ref: '#/components/schemas/PartOfSpeech'
+
+    PartOfSpeech:
+      type: string
+      description: 'Части речи'
+      enum:
+        - noun
+        - verb
+        - adjective
+        - adverb
+
+    WordInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    WordCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseWord'
+
+    WordCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/WordRequestDebug'
+        - type: object
+          properties:
+            word:
+              $ref: '#/components/schemas/WordCreateObject'
+
+    WordReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/WordId'
+
+    WordReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/WordRequestDebug'
+        - type: object
+          properties:
+            word:
+              $ref: '#/components/schemas/WordReadObject'
+
+    WordUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseWord'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/WordId'
+            lock:
+              $ref: '#/components/schemas/WordLock'
+
+    WordUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/WordRequestDebug'
+        - type: object
+          properties:
+            word:
+              $ref: '#/components/schemas/WordUpdateObject'
+
+    WordDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/WordId'
+            lock:
+              $ref: '#/components/schemas/WordLock'
+
+    WordDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/WordRequestDebug'
+        - type: object
+          properties:
+            word:
+              $ref: '#/components/schemas/WordDeleteObject'
+
+    WordSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в английском и русском значениях слова
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+        partOfSpeech:
+          $ref: '#/components/schemas/PartOfSpeech'
+
+    WordSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/WordRequestDebug'
+        - type: object
+          properties:
+            wordFilter:
+              $ref: '#/components/schemas/WordSearchFilter'
+
+    WordResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseWord'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/WordId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            lock:
+              $ref: '#/components/schemas/WordLock'
+
+    WordResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом слова
+          properties:
+            word:
+              $ref: '#/components/schemas/WordResponseObject'
+
+    WordResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            words:
+              type: array
+              items:
+                $ref: '#/components/schemas/WordResponseObject'
+
+    WordCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/WordResponseSingle'
+
+    WordReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/WordResponseSingle'
+
+    WordUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/WordResponseSingle'
+
+    WordDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/WordResponseSingle'
+
+    WordSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/WordResponseMulti'
+
+    # STUBS ======================
+    WordRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/WordDebug'
+
+    WordDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/WordRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/WordRequestDebugStubs'
+
+    WordRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+        -
+    WordRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badEnglish
+        - badRussian
+        - badPathOfSpeech
+        - cannotDelete
+        - badSearchString
