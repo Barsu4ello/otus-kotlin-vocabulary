@@ -1,4 +1,4 @@
-package models
+package ru.gorbunov.vocabulary.common.models
 
 import kotlin.jvm.JvmInline
 

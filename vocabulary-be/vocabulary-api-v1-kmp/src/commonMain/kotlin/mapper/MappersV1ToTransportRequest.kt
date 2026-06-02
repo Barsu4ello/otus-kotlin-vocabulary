@@ -1,9 +1,9 @@
 package ru.gorbunov.vocabulary.api.kmp.v1.mapper
 
-import models.VcblWord
-import models.VcblWordId
-import models.VcblWordLock
 import ru.gorbunov.vocabulary.api.v1.models.*
+import ru.gorbunov.vocabulary.common.models.VcblWord
+import ru.gorbunov.vocabulary.common.models.VcblWordId
+import ru.gorbunov.vocabulary.common.models.VcblWordLock
 
 fun VcblWord.toTransportCreateWord() = WordCreateObject(
     english = english.takeIf { it.isNotBlank() },

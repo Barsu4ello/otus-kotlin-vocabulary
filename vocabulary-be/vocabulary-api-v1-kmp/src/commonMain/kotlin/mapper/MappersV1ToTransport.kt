@@ -1,9 +1,9 @@
 package ru.gorbunov.vocabulary.api.kmp.v1.mapper
 
-import VcblContext
-import exceptions.UnknownVcblCommand
-import models.*
 import ru.gorbunov.vocabulary.api.v1.models.*
+import ru.gorbunov.vocabulary.common.VcblContext
+import ru.gorbunov.vocabulary.common.exceptions.UnknownVcblCommand
+import ru.gorbunov.vocabulary.common.models.*
 
 fun VcblContext.toTransportWord(): IResponse = when (val cmd = command) {
     VcblCommand.CREATE -> toTransportCreate()
@@ -11,6 +11,8 @@ fun VcblContext.toTransportWord(): IResponse = when (val cmd = command) {
     VcblCommand.UPDATE -> toTransportUpdate()
     VcblCommand.DELETE -> toTransportDelete()
     VcblCommand.SEARCH -> toTransportSearch()
+    VcblCommand.INIT -> toTransportInit()
+    VcblCommand.FINISH -> throw UnknownVcblCommand(cmd)
     VcblCommand.NONE -> throw UnknownVcblCommand(cmd)
 }
 
@@ -42,6 +44,11 @@ fun VcblContext.toTransportSearch() = WordSearchResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
     words = wordsResponse.toTransportWord()
+)
+
+fun VcblContext.toTransportInit() = WordInitResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
 )
 
 private fun VcblState.toResult(): ResponseResult? = when (this) {

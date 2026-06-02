@@ -12,24 +12,25 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
+                api("ru.gorbunov.vocabulary.libs:vocabulary-lib-logging-common")
             }
-        }
-        commonTest {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+            commonTest {
+                dependencies {
+                    implementation(kotlin("test-common"))
+                    implementation(kotlin("test-annotations-common"))
+                }
             }
-        }
 
-        jvmTest {
-            dependencies {
-                implementation(kotlin("test"))
+            jvmTest {
+                dependencies {
+                    implementation(kotlin("test"))
+                }
             }
-        }
 
-        nativeTest {
-            dependencies {
-                implementation(kotlin("test"))
+            nativeTest {
+                dependencies {
+                    implementation(kotlin("test"))
+                }
             }
         }
     }

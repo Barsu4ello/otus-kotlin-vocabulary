@@ -1,7 +1,7 @@
-import models.VcblWord
-import models.VcblWordId
-import models.VcblWordLock
+package ru.gorbunov.vocabulary.mappers.v1
+
 import ru.gorbunov.vocabulary.api.v1.models.*
+import ru.gorbunov.vocabulary.common.models.*
 
 fun VcblWord.toTransportCreateWord() = WordCreateObject(
     english = english.takeIf { it.isNotBlank() },
