@@ -1,9 +1,9 @@
 package ru.gorbunov.vocabulary.api.kmp.v1.mapper
 
-import VcblContext
-import models.*
 import ru.gorbunov.vocabulary.api.v1.models.*
-import stubs.VcblStubs
+import ru.gorbunov.vocabulary.common.VcblContext
+import ru.gorbunov.vocabulary.common.models.*
+import ru.gorbunov.vocabulary.common.stubs.VcblStubs
 
 fun VcblContext.fromTransport(request: IRequest) = when (request) {
     is WordCreateRequest -> fromTransport(request)

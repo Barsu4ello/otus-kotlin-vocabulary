@@ -1,4 +1,4 @@
-import models.*
+import ru.gorbunov.vocabulary.common.models.*
 
 object VcblWordStubCat {
     val WORD_CAT: VcblWord

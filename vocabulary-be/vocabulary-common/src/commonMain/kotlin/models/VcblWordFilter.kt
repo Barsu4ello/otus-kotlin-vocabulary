@@ -1,4 +1,4 @@
-package models
+package ru.gorbunov.vocabulary.common.models
 
 data class VcblWordFilter(
     var searchString: String = "",

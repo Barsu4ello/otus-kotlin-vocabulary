@@ -1,4 +1,4 @@
-package models
+package ru.gorbunov.vocabulary.common.models
 
 data class VcblWord (
     var id: VcblWordId = VcblWordId.NONE,

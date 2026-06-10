@@ -1,6 +1,9 @@
-import kotlinx.datetime.Instant
-import models.*
-import stubs.VcblStubs
+package ru.gorbunov.vocabulary.common
+
+import kotlin.time.Instant
+import ru.gorbunov.vocabulary.common.models.*
+import ru.gorbunov.vocabulary.common.stubs.VcblStubs
+import ru.gorbunov.vocabulary.common.ws.IVcblWsSession
 
 data class VcblContext(
     var command: VcblCommand = VcblCommand.NONE,
@@ -9,6 +12,7 @@ data class VcblContext(
 
     var workMode: VcblWorkMode = VcblWorkMode.PROD,
     var stubCase: VcblStubs = VcblStubs.NONE,
+    var wsSession: IVcblWsSession = IVcblWsSession.NONE,
 
     var requestId: VcblRequestId = VcblRequestId.NONE,
     var timeStart: Instant = Instant.NONE,

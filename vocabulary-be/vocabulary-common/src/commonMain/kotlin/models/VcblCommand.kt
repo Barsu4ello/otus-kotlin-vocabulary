@@ -1,4 +1,4 @@
-package models
+package ru.gorbunov.vocabulary.common.models
 
 enum class VcblCommand {
     NONE,
@@ -7,4 +7,6 @@ enum class VcblCommand {
     UPDATE,
     DELETE,
     SEARCH,
+    INIT,
+    FINISH,
 }

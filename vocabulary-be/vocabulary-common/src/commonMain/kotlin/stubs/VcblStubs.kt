@@ -1,4 +1,4 @@
-package stubs
+package ru.gorbunov.vocabulary.common.stubs
 
 enum class VcblStubs {
     NONE,
