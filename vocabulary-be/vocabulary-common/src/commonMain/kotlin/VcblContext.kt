@@ -10,6 +10,7 @@ data class VcblContext(
     var state: VcblState = VcblState.NONE,
     val errors: MutableList<VcblError> = mutableListOf(),
 
+    var corSettings: VcblCorSettings = VcblCorSettings(),
     var workMode: VcblWorkMode = VcblWorkMode.PROD,
     var stubCase: VcblStubs = VcblStubs.NONE,
     var wsSession: IVcblWsSession = IVcblWsSession.NONE,
