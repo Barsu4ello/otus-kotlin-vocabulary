@@ -20,6 +20,12 @@ data class VcblContext(
     var wordRequest: VcblWord = VcblWord(),
     var wordFilterRequest: VcblWordFilter = VcblWordFilter(),
 
+    var wordValidating: VcblWord = VcblWord(),
+    var wordFilterValidating: VcblWordFilter = VcblWordFilter(),
+
+    var wordValidated: VcblWord = VcblWord(),
+    var wordFilterValidated: VcblWordFilter = VcblWordFilter(),
+
     var wordResponse: VcblWord = VcblWord(),
     var wordsResponse: MutableList<VcblWord> = mutableListOf(),
 )
