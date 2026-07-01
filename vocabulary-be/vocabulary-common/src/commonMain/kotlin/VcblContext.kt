@@ -10,6 +10,7 @@ data class VcblContext(
     var state: VcblState = VcblState.NONE,
     val errors: MutableList<VcblError> = mutableListOf(),
 
+    var corSettings: VcblCorSettings = VcblCorSettings(),
     var workMode: VcblWorkMode = VcblWorkMode.PROD,
     var stubCase: VcblStubs = VcblStubs.NONE,
     var wsSession: IVcblWsSession = IVcblWsSession.NONE,
@@ -18,6 +19,12 @@ data class VcblContext(
     var timeStart: Instant = Instant.NONE,
     var wordRequest: VcblWord = VcblWord(),
     var wordFilterRequest: VcblWordFilter = VcblWordFilter(),
+
+    var wordValidating: VcblWord = VcblWord(),
+    var wordFilterValidating: VcblWordFilter = VcblWordFilter(),
+
+    var wordValidated: VcblWord = VcblWord(),
+    var wordFilterValidated: VcblWordFilter = VcblWordFilter(),
 
     var wordResponse: VcblWord = VcblWord(),
     var wordsResponse: MutableList<VcblWord> = mutableListOf(),

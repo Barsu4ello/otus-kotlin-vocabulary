@@ -1,3 +1,5 @@
+package ru.gorbunov.vocabulary.stubs
+
 import ru.gorbunov.vocabulary.common.models.*
 
 object VcblWordStubCat {

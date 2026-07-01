@@ -23,4 +23,5 @@ pluginManagement {
 include("vocabulary-lib-logging-common")
 include("vocabulary-lib-logging-logback")
 include("vocabulary-lib-logging-socket")
+include("vocabulary-lib-cor")
 

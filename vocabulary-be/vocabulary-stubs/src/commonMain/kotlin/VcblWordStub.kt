@@ -1,6 +1,8 @@
-import VcblWordStubCat.WORD_CAT
+package ru.gorbunov.vocabulary.stubs
+
 import ru.gorbunov.vocabulary.common.models.*
 import ru.gorbunov.vocabulary.common.models.VcblWord
+import ru.gorbunov.vocabulary.stubs.VcblWordStubCat.WORD_CAT
 
 object VcblWordStub {
     fun get(): VcblWord = VcblWordStubCat.WORD_CAT.copy()
