@@ -31,6 +31,7 @@ coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reacto
 coroutines-reactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "coroutines" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version = "0.23.2" }
 cor = { module = "ru.gorbunov.vocabulary.libs:vocabulary-lib-cor" }
+#uuid = "com.benasher44:uuid:0.8.4"
 
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
@@ -59,6 +60,8 @@ logback-logstash = { module = "net.logstash.logback:logstash-logback-encoder", v
 logback-appenders = { module = "com.sndyuk:logback-more-appenders", version = "1.8.8" }
 logger-fluentd = { module = "org.fluentd:fluent-logger", version = "0.3.4" }
 
+# Databases
+db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

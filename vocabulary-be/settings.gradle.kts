@@ -32,6 +32,10 @@ include("vocabulary-app-common")
 include("vocabulary-app-ktor")
 include("vocabulary-biz")
 include("vocabulary-api-log1")
+include("vocabulary-repo-inmemory")
+include("vocabulary-repo-common")
+include("vocabulary-repo-tests")
+
 
 
 

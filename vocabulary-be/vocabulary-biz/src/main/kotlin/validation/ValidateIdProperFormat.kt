@@ -10,7 +10,7 @@ import ru.gorbunov.vocabulary.cor.worker
 fun ICorChainDsl<VcblContext>.validateIdProperFormat(title: String) = worker {
     this.title = title
 
-    // Может быть вынесен в MkplAdId для реализации различных форматов
+    // Может быть вынесен в VcblWordId для реализации различных форматов
     val regExp = Regex("^[0-9a-zA-Z#:-]+$")
     on { wordValidating.id != VcblWordId.NONE && !wordValidating.id.asString().matches(regExp) }
     handle {
