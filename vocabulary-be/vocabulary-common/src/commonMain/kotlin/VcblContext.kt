@@ -2,6 +2,7 @@ package ru.gorbunov.vocabulary.common
 
 import kotlin.time.Instant
 import ru.gorbunov.vocabulary.common.models.*
+import ru.gorbunov.vocabulary.common.repo.IRepoWord
 import ru.gorbunov.vocabulary.common.stubs.VcblStubs
 import ru.gorbunov.vocabulary.common.ws.IVcblWsSession
 
@@ -25,6 +26,12 @@ data class VcblContext(
 
     var wordValidated: VcblWord = VcblWord(),
     var wordFilterValidated: VcblWordFilter = VcblWordFilter(),
+
+    var wordRepo: IRepoWord = IRepoWord.NONE,
+    var wordRepoRead: VcblWord = VcblWord(), // То, что прочитали из репозитория
+    var wordRepoPrepare: VcblWord = VcblWord(), // То, что готовим для сохранения в БД
+    var wordRepoDone: VcblWord = VcblWord(),  // Результат, полученный из БД
+    var wordsRepoDone: MutableList<VcblWord> = mutableListOf(),
 
     var wordResponse: VcblWord = VcblWord(),
     var wordsResponse: MutableList<VcblWord> = mutableListOf(),

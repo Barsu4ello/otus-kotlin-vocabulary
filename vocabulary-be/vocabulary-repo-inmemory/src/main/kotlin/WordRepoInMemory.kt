@@ -5,6 +5,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.gorbunov.vocabulary.common.models.*
 import ru.gorbunov.vocabulary.common.repo.*
+import ru.gorbunov.vocabulary.common.repo.exceptions.RepoEmptyLockException
 import ru.gorbunov.vocabulary.repo.common.IRepoWordInitializable
 import java.util.UUID
 import kotlin.time.Duration
@@ -29,7 +30,7 @@ class WordRepoInMemory(
 
     override suspend fun createWord(rq: DbWordRequest): IDbWordResponse = tryWordMethod {
         val key = randomUuid()
-        val word = rq.word.copy(id = VcblWordId(key))
+        val word = rq.word.copy(id = VcblWordId(key), lock = VcblWordLock(randomUuid()))
         val entity = WordEntity(word)
         mutex.withLock {
             cache.put(key, entity)
@@ -51,11 +52,14 @@ class WordRepoInMemory(
         val rqWord = rq.word
         val id = rqWord.id.takeIf { it != VcblWordId.NONE } ?: return@tryWordMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rqWord.lock.takeIf { it != VcblWordLock.NONE } ?: return@tryWordMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldWord = cache.get(key)?.toInternal()
             when {
                 oldWord == null -> errorNotFound(id)
+                oldWord.lock == VcblWordLock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldWord.lock != oldLock -> errorRepoConcurrency(oldWord, oldLock)
                 else -> {
                     val newWord = rqWord.copy()
                     val entity = WordEntity(newWord)
@@ -70,11 +74,14 @@ class WordRepoInMemory(
     override suspend fun deleteWord(rq: DbWordIdRequest): IDbWordResponse = tryWordMethod {
         val id = rq.id.takeIf { it != VcblWordId.NONE } ?: return@tryWordMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rq.lock.takeIf { it != VcblWordLock.NONE } ?: return@tryWordMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldWord = cache.get(key)?.toInternal()
             when {
                 oldWord == null -> errorNotFound(id)
+                oldWord.lock == VcblWordLock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldWord.lock != oldLock -> errorRepoConcurrency(oldWord, oldLock)
                 else -> {
                     cache.invalidate(key)
                     DbWordResponseOk(oldWord)

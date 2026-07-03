@@ -17,10 +17,16 @@ fun Throwable.asVcblError(
     exception = this,
 )
 
-inline fun VcblContext.addError(vararg error: VcblError) = errors.addAll(error)
+inline fun VcblContext.addError(error: VcblError) = errors.add(error)
+inline fun VcblContext.addErrors(error: Collection<VcblError>) = errors.addAll(error)
 
 inline fun VcblContext.fail(error: VcblError) {
     addError(error)
+    state = VcblState.FAILING
+}
+
+inline fun VcblContext.fail(errors: Collection<VcblError>) {
+    addErrors(errors)
     state = VcblState.FAILING
 }
 

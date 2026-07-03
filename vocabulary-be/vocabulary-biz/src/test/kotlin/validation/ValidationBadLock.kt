@@ -10,6 +10,7 @@ import ru.gorbunov.vocabulary.common.models.VcblWord
 import ru.gorbunov.vocabulary.common.models.VcblWordId
 import ru.gorbunov.vocabulary.common.models.VcblWordLock
 import ru.gorbunov.vocabulary.common.models.VcblWorkMode
+import ru.gorbunov.vocabulary.stubs.VcblWordStub
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -19,13 +20,7 @@ fun validationLockCorrect(command: VcblCommand, processor: VcblWordProcessor) = 
         command = command,
         state = VcblState.NONE,
         workMode = VcblWorkMode.TEST,
-        wordRequest = VcblWord(
-            id = VcblWordId("123-234-abc-ABC"),
-            english = "cat",
-            russian = "кот",
-            partOfSpeech = VcblPartOfSpeech.NOUN,
-            lock = VcblWordLock("123-234-abc-ABC"),
-        ),
+        wordRequest = VcblWordStub.get(),
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
@@ -37,13 +32,9 @@ fun validationLockTrim(command: VcblCommand, processor: VcblWordProcessor) = run
         command = command,
         state = VcblState.NONE,
         workMode = VcblWorkMode.TEST,
-        wordRequest = VcblWord(
-            id = VcblWordId("123-234-abc-ABC"),
-            english = "cat",
-            russian = "кот",
-            partOfSpeech = VcblPartOfSpeech.NOUN,
-            lock = VcblWordLock(" \n\t 123-234-abc-ABC \n\t "),
-        ),
+        wordRequest = VcblWordStub.prepareResult {
+            lock = VcblWordLock(" \n\t 123-234-abc-ABC \n\t ")
+        },
     )
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
