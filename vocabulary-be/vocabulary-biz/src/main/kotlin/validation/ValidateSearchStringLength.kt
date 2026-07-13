@@ -46,4 +46,22 @@ fun ICorChainDsl<VcblContext>.validateSearchStringLength(title: String) = chain 
             )
         }
     }
+    worker {
+        this.title = "Проверка того что в searchString или русские или английские буквы"
+        this.description = this.title
+        on {
+            state == VcblState.RUNNING &&
+                    !(wordFilterValidating.searchString.matches(Regex("^[а-яА-ЯёЁ]+$"))
+                            || wordFilterValidating.searchString.matches(Regex("^[a-zA-Z]+$")))
+        }
+        handle {
+            fail(
+                errorValidation(
+                    field = "searchString",
+                    violationCode = "combineDifferentLanguages",
+                    description = "Search string must contains only russian or english symbols"
+                )
+            )
+        }
+    }
 }

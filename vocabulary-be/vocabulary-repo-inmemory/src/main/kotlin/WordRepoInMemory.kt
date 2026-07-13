@@ -61,7 +61,7 @@ class WordRepoInMemory(
                 oldWord.lock == VcblWordLock.NONE -> errorDb(RepoEmptyLockException(id))
                 oldWord.lock != oldLock -> errorRepoConcurrency(oldWord, oldLock)
                 else -> {
-                    val newWord = rqWord.copy()
+                    val newWord = rqWord.copy(lock = VcblWordLock(randomUuid()))
                     val entity = WordEntity(newWord)
                     cache.put(key, entity)
                     DbWordResponseOk(newWord)

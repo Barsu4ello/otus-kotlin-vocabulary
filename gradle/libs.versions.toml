@@ -13,6 +13,12 @@ logback = "1.5.3"
 #Frameworks
 ktor = "3.4.3"
 
+liquibase = "4.27.0"
+cassandra = "4.17.0"
+
+#Testing
+testcontainers = "2.0.4"
+
 # BASE
 jvm-compiler = "17"
 jvm-language = "21"
@@ -29,6 +35,7 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ve
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
 coroutines-reactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "coroutines" }
+coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version = "0.23.2" }
 cor = { module = "ru.gorbunov.vocabulary.libs:vocabulary-lib-cor" }
 #uuid = "com.benasher44:uuid:0.8.4"
@@ -62,6 +69,17 @@ logger-fluentd = { module = "org.fluentd:fluent-logger", version = "0.3.4" }
 
 # Databases
 db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
+db-cassandra-core = { module = "com.datastax.oss:java-driver-core", version.ref = "cassandra" }
+db-cassandra-qbuilder = { module = "com.datastax.oss:java-driver-query-builder", version.ref = "cassandra" }
+db-cassandra-kapt = { module = "com.datastax.oss:java-driver-mapper-processor", version.ref = "cassandra" }
+db-cassandra-mapper = { module = "com.datastax.oss:java-driver-mapper-runtime", version.ref = "cassandra" }
+
+# Testing
+testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-cassandra = { module = "org.testcontainers:testcontainers-cassandra", version.ref = "testcontainers" }
+
+[bundles]
+cassandra = ["db-cassandra-core", "db-cassandra-mapper", "db-cassandra-qbuilder"]
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

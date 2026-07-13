@@ -63,7 +63,7 @@ abstract class RepoWordUpdateTest {
         assertEquals(reqUpdateSucc.english, result.data.english)
         assertEquals(reqUpdateSucc.russian, result.data.russian)
         assertEquals(reqUpdateSucc.partOfSpeech, result.data.partOfSpeech)
-        assertEquals(lockOld, result.data.lock)
+        assertEquals(lockNew, result.data.lock)
     }
 
     @Test

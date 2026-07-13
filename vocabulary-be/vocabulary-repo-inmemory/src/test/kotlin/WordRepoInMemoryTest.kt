@@ -32,7 +32,7 @@ class WordRepoInMemorySearchTest : RepoWordSearchTest() {
 
 class WordRepoInMemoryUpdateTest : RepoWordUpdateTest() {
     override val repo = WordRepoInitialized(
-        WordRepoInMemory(),
+        WordRepoInMemory(randomUuid = { lockNew.asString() }),
         initObjects = initObjects,
     )
 }
