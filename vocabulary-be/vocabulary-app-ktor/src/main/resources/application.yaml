@@ -8,3 +8,15 @@ ktor:
   application:
     modules:
       - "ru.gorbunov.vocabulary.app.ktor.ApplicationJvmKt.moduleJvm"
+  logger: logback
+
+vocabulary:
+  repository:
+    test: "inmemory"
+    prod: "$DB_TYPE_PROD:inmemory"
+    cassandra:
+      keyspace: "$VCBLWORDS_KEYSPACE:vocabulary"
+      host: "$VCBLWORDS_HOST:localhost"
+      port: "$VCBLWORDS_PORT:9042"
+      user: "$VCBLWORDS_USER:cassandra"
+      pass: "$VCBLWORDS_PASS:cassandra"

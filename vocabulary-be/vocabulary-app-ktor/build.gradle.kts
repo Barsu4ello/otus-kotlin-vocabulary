@@ -38,12 +38,18 @@ dependencies {
 
     implementation(project(":vocabulary-api-v1-jackson"))
     implementation(project(":vocabulary-api-v1-mappers"))
+    implementation(project(":vocabulary-repo-cassandra"))
+    implementation(project(":vocabulary-repo-common"))
+    implementation(project(":vocabulary-repo-inmemory"))
+    implementation(project(":vocabulary-repo-stubs"))
+    implementation(project(":vocabulary-stubs"))
 
     implementation("ru.gorbunov.vocabulary.libs:vocabulary-lib-logging-common")
     implementation("ru.gorbunov.vocabulary.libs:vocabulary-lib-logging-logback")
     implementation("ru.gorbunov.vocabulary.libs:vocabulary-lib-logging-socket")
 
     implementation(kotlin("test-junit"))
+    testImplementation(libs.testcontainers.cassandra)
     implementation(libs.ktor.server.test)
     implementation(libs.ktor.client.negotiation)
 }

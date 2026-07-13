@@ -40,7 +40,8 @@ suspend fun WebSocketSession.wsHandlerV1(appSettings: VcblAppSettings) = with(Kt
         try {
             appSettings.controllerHelper(
                 {
-                    fromTransport(apiV1Mapper.readValue<IRequest>(frame.readText()))
+                    val request = apiV1Mapper.readValue<IRequest>(frame.readText())
+                    fromTransport(request)
                     wsSession = this@with
                 },
                 {

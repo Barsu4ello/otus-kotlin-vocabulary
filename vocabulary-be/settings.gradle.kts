@@ -35,6 +35,7 @@ include("vocabulary-api-log1")
 include("vocabulary-repo-inmemory")
 include("vocabulary-repo-common")
 include("vocabulary-repo-tests")
+include("vocabulary-repo-stubs")
 include("vocabulary-repo-cassandra")
 
 

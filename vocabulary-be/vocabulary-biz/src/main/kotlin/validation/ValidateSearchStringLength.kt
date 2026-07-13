@@ -50,7 +50,7 @@ fun ICorChainDsl<VcblContext>.validateSearchStringLength(title: String) = chain 
         this.title = "Проверка того что в searchString или русские или английские буквы"
         this.description = this.title
         on {
-            state == VcblState.RUNNING &&
+            state == VcblState.RUNNING && wordFilterValidating.searchString != "" &&
                     !(wordFilterValidating.searchString.matches(Regex("^[а-яА-ЯёЁ]+$"))
                             || wordFilterValidating.searchString.matches(Regex("^[a-zA-Z]+$")))
         }

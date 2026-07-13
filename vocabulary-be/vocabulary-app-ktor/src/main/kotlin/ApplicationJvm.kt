@@ -59,6 +59,7 @@ fun Application.moduleJvm(
             }
             v1Word(appSettings)
             webSocket("/ws") {
+                println(">>> WebSocket route entered")
                 wsHandlerV1(appSettings)
             }
         }
