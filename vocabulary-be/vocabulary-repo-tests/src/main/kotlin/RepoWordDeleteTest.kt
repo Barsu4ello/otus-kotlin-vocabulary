@@ -6,7 +6,6 @@ import ru.gorbunov.vocabulary.common.repo.DbWordIdRequest
 import ru.gorbunov.vocabulary.common.repo.DbWordResponseErr
 import ru.gorbunov.vocabulary.common.repo.DbWordResponseErrWithData
 import ru.gorbunov.vocabulary.common.repo.DbWordResponseOk
-import ru.gorbunov.vocabulary.common.repo.IRepoWord
 import ru.gorbunov.vocabulary.repo.common.IRepoWordInitializable
 import kotlin.test.Test
 import kotlin.test.assertEquals

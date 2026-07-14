@@ -4,7 +4,6 @@ import com.datastax.oss.driver.api.core.cql.AsyncResultSet
 import com.datastax.oss.driver.api.mapper.MapperContext
 import com.datastax.oss.driver.api.mapper.entity.EntityHelper
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder
-import com.datastax.oss.driver.api.querybuilder.select.Select
 import ru.gorbunov.vocabulary.backend.repo.cassandra.model.WordCassandraDTO
 import ru.gorbunov.vocabulary.backend.repo.cassandra.model.toTransport
 import ru.gorbunov.vocabulary.common.models.VcblPartOfSpeech

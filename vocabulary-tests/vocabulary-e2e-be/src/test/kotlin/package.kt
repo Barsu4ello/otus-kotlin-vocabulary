@@ -1,0 +1,1 @@
+package ru.gorbunov.vocabulary.e2e.be

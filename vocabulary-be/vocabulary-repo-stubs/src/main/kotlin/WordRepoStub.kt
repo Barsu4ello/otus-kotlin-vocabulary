@@ -5,7 +5,7 @@ import ru.gorbunov.vocabulary.common.repo.*
 import ru.gorbunov.vocabulary.stubs.VcblWordStub
 
 
-class WordRepoStub() : IRepoWord {
+class WordRepoStub : IRepoWord {
     override suspend fun createWord(rq: DbWordRequest): IDbWordResponse {
         return DbWordResponseOk(
             data = VcblWordStub.get(),

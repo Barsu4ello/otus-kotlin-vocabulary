@@ -4,7 +4,6 @@ import com.datastax.oss.driver.api.core.CqlSession
 import com.datastax.oss.driver.api.core.cql.AsyncResultSet
 import com.datastax.oss.driver.internal.core.type.codec.extras.enums.EnumNameCodec
 import com.datastax.oss.driver.internal.core.type.codec.registry.DefaultCodecRegistry
-import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.future.asDeferred
 import kotlinx.coroutines.future.await

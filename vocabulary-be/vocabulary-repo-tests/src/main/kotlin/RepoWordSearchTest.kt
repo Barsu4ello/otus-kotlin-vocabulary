@@ -5,9 +5,7 @@ import ru.gorbunov.vocabulary.common.models.VcblUserId
 import ru.gorbunov.vocabulary.common.models.VcblWord
 import ru.gorbunov.vocabulary.common.repo.DbWordFilterRequest
 import ru.gorbunov.vocabulary.common.repo.DbWordsResponseOk
-import ru.gorbunov.vocabulary.common.repo.IRepoWord
 import ru.gorbunov.vocabulary.repo.common.IRepoWordInitializable
-import ru.gorbunov.vocabulary.repo.common.WordRepoInitialized
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

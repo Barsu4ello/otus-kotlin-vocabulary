@@ -1,8 +1,13 @@
-import models.*
 import org.junit.Test
-import kotlin.test.assertEquals
 import ru.gorbunov.vocabulary.api.v1.models.*
-import stubs.VcblStubs
+import ru.gorbunov.vocabulary.common.VcblContext
+import ru.gorbunov.vocabulary.common.models.*
+import ru.gorbunov.vocabulary.common.stubs.VcblStubs
+import ru.gorbunov.vocabulary.mappers.v1.fromTransport
+import ru.gorbunov.vocabulary.mappers.v1.toTransportCreateWord
+import ru.gorbunov.vocabulary.mappers.v1.toTransportWord
+import ru.gorbunov.vocabulary.stubs.VcblWordStub
+import kotlin.test.assertEquals
 
 class MapperTest {
     @Test
