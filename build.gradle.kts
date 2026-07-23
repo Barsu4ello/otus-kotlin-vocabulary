@@ -38,8 +38,6 @@ tasks {
 
     register("check") {
         group = "verification"
-        dependsOn(
-            gradle.includedBuild("vocabulary-be").task(":check"),
-        )
+        dependsOn(gradle.includedBuild("vocabulary-be").task(":check"))
     }
 }
