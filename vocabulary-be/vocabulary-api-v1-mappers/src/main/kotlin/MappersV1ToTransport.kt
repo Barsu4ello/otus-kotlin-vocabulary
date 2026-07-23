@@ -80,6 +80,7 @@ fun VcblWord.toTransportWord(): WordResponseObject = WordResponseObject(
     russian = russian.takeIf { it.isNotBlank() },
     partOfSpeech = partOfSpeech.toTransportPathOfSpeech(),
     ownerId = ownerId.takeIf { it != VcblUserId.NONE }?.asString(),
+    lock = lock.takeIf { it != VcblWordLock.NONE }?.asString()
 )
 
 fun List<VcblWord>.toTransportWord(): List<WordResponseObject>? = this

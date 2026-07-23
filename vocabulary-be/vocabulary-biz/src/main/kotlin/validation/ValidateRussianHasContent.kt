@@ -8,7 +8,7 @@ import ru.gorbunov.vocabulary.cor.worker
 
 fun ICorChainDsl<VcblContext>.validateRussianHasContent(title: String) = worker {
     this.title = title
-    val regExp = Regex("^[а-яА-Я]+$")
+    val regExp = Regex("^[а-яА-ЯёЁ]+$")
     on { wordValidating.russian.isNotEmpty() && !wordValidating.russian.contains(regExp) }
     handle {
         fail(

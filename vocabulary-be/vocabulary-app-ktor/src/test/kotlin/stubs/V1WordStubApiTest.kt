@@ -16,7 +16,7 @@ import ru.gorbunov.vocabulary.common.VcblCorSettings
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class V1AdStubApiTest {
+class V1WordStubApiTest {
     @Test
     fun create() = v1TestApplication(
         func = "create",

@@ -22,3 +22,5 @@ pluginManagement {
 
 include("vocabulary-dcompose")
 include("vocabulary-specs")
+include("vocabulary-migration-cs")
+

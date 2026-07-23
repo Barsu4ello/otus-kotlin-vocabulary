@@ -66,6 +66,7 @@ private fun WordUpdateObject.toInternal(): VcblWord = VcblWord(
 
 private fun WordSearchFilter?.toInternal(): VcblWordFilter = VcblWordFilter(
     searchString = this?.searchString ?: "",
+    ownerId = this?.ownerId?.let { VcblUserId(it) } ?: VcblUserId.NONE,
     partOfSpeech = this?.partOfSpeech.fromTransport()
 )
 

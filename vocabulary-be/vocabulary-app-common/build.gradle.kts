@@ -7,7 +7,6 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.test)
 
-    // transport models
     implementation(project(":vocabulary-common"))
     implementation(project(":vocabulary-api-log1"))
     implementation(project(":vocabulary-api-v1-kmp"))

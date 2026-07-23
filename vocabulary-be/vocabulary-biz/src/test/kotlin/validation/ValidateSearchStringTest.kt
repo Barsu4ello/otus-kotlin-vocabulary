@@ -8,7 +8,7 @@ import ru.gorbunov.vocabulary.cor.rootChain
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ValidateSearchStringLengthTest {
+class ValidateSearchStringTest {
 
     @Test
     fun emptyString() = runTest {
@@ -50,6 +50,15 @@ class ValidateSearchStringLengthTest {
         assertEquals(VcblState.FAILING, ctx.state)
         assertEquals(1, ctx.errors.size)
         assertEquals("validation-searchString-tooLong", ctx.errors.first().code)
+    }
+
+    @Test
+    fun combineDifferentLanguages() = runTest {
+        val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = "catкот"))
+        chain.exec(ctx)
+        assertEquals(VcblState.FAILING, ctx.state)
+        assertEquals(1, ctx.errors.size)
+        assertEquals("validation-searchString-combineDifferentLanguages", ctx.errors.first().code)
     }
 
     companion object {

@@ -17,10 +17,16 @@ fun Throwable.asVcblError(
     exception = this,
 )
 
-inline fun VcblContext.addError(vararg error: VcblError) = errors.addAll(error)
+inline fun VcblContext.addError(error: VcblError) = errors.add(error)
+inline fun VcblContext.addErrors(error: Collection<VcblError>) = errors.addAll(error)
 
 inline fun VcblContext.fail(error: VcblError) {
     addError(error)
+    state = VcblState.FAILING
+}
+
+inline fun VcblContext.fail(errors: Collection<VcblError>) {
+    addErrors(errors)
     state = VcblState.FAILING
 }
 
@@ -39,4 +45,16 @@ fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+inline fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = VcblError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
 )

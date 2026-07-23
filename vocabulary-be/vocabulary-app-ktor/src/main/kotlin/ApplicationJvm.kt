@@ -13,6 +13,7 @@ import io.ktor.server.plugins.calllogging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.response.respondText
 import io.ktor.server.websocket.*
 import org.slf4j.event.Level
 import ru.gorbunov.vocabulary.app.ktor.plugins.initAppSettings
@@ -50,6 +51,10 @@ fun Application.moduleJvm(
     install(WebSockets)
 
     routing {
+        //healthcheck
+        get("/") {
+            call.respondText("Hello, world!")
+        }
         route("v1") {
             install(ContentNegotiation) {
                 jackson {
@@ -59,6 +64,7 @@ fun Application.moduleJvm(
             }
             v1Word(appSettings)
             webSocket("/ws") {
+                println(">>> WebSocket route entered")
                 wsHandlerV1(appSettings)
             }
         }

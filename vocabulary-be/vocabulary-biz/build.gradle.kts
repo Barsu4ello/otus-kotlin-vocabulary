@@ -10,7 +10,11 @@ dependencies {
     implementation(project(":vocabulary-common"))
     implementation(project(":vocabulary-stubs"))
 
-    implementation(kotlin("test-junit"))
-    implementation(libs.coroutines.test)
+    testImplementation(project(":vocabulary-repo-common"))
+    testImplementation(project(":vocabulary-repo-tests"))
+    testImplementation(project("::vocabulary-repo-inmemory"))
+
+    testImplementation(kotlin("test-junit"))
+    testImplementation(libs.coroutines.test)
 }
 

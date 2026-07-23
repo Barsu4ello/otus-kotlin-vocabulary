@@ -10,6 +10,6 @@ object VcblWordStubCat {
             russian = "кот",
             partOfSpeech = VcblPartOfSpeech.NOUN,
             ownerId = VcblUserId("user-1"),
-            lock = VcblWordLock("123"),
+            lock = VcblWordLock("123-234-abc-ABC"),
             )
 }

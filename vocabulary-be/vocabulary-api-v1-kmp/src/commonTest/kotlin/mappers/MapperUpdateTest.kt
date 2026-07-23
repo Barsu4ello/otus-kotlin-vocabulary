@@ -1,13 +1,18 @@
 package mappers
 
-import VcblContext
-import VcblWordStub
-import models.*
 import ru.gorbunov.vocabulary.api.kmp.v1.mapper.fromTransport
 import ru.gorbunov.vocabulary.api.kmp.v1.mapper.toTransportUpdateWord
 import ru.gorbunov.vocabulary.api.kmp.v1.mapper.toTransportWord
 import ru.gorbunov.vocabulary.api.v1.models.*
-import stubs.VcblStubs
+import ru.gorbunov.vocabulary.common.VcblContext
+import ru.gorbunov.vocabulary.common.models.VcblCommand
+import ru.gorbunov.vocabulary.common.models.VcblError
+import ru.gorbunov.vocabulary.common.models.VcblRequestId
+import ru.gorbunov.vocabulary.common.models.VcblState
+import ru.gorbunov.vocabulary.common.models.VcblUserId
+import ru.gorbunov.vocabulary.common.models.VcblWorkMode
+import ru.gorbunov.vocabulary.common.stubs.VcblStubs
+import ru.gorbunov.vocabulary.stubs.VcblWordStub
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
