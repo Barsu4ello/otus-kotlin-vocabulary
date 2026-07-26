@@ -10,12 +10,15 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation(libs.jackson.kotlin)
 
 //    resourcesFromLib("${libs.vcbl.dcompose.get()}:resources@zip")
 
     implementation("ru.gorbunov.vocabulary:vocabulary-api-v1-jackson")
     implementation("ru.gorbunov.vocabulary:vocabulary-api-v1-mappers")
     implementation("ru.gorbunov.vocabulary:vocabulary-stubs")
+    implementation("ru.gorbunov.vocabulary:vocabulary-app-common")
+    implementation("ru.gorbunov.vocabulary:vocabulary-common")
 
     testImplementation(kotlin("test-junit5"))
 

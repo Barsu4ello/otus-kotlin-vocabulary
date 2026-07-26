@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") apply false
 }
 
-group = "ru.otus.otuskotlin.vocabulary"
+group = "ru.gorbunov.vocabulary"
 version = "0.0.1"
 
 subprojects {

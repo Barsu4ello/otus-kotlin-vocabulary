@@ -3,16 +3,18 @@ package ru.gorbunov.vocabulary.biz.repo
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.backend.repo.tests.WordRepositoryMock
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.VcblCorSettings
 import ru.gorbunov.vocabulary.common.models.*
 import ru.gorbunov.vocabulary.common.repo.DbWordResponseOk
+import ru.gorbunov.vocabulary.stubs.VcblWordStubCat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class BizRepoUpdateTest {
 
-    private val userId = VcblUserId("321")
+    private val userId = VcblWordStubCat.WORD_CAT.ownerId
     private val command = VcblCommand.UPDATE
     private val initWord = VcblWord(
         id = VcblWordId("123"),
@@ -58,6 +60,7 @@ class BizRepoUpdateTest {
             workMode = VcblWorkMode.TEST,
             wordRequest = wordToUpdate,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(VcblState.FINISHING, ctx.state)
         assertEquals(wordToUpdate.id, ctx.wordResponse.id)

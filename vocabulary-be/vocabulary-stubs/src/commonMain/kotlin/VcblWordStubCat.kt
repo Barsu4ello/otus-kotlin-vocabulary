@@ -11,5 +11,10 @@ object VcblWordStubCat {
             partOfSpeech = VcblPartOfSpeech.NOUN,
             ownerId = VcblUserId("user-1"),
             lock = VcblWordLock("123-234-abc-ABC"),
+            permissionsClient = mutableSetOf(
+                VcblWordPermissionClient.READ,
+                VcblWordPermissionClient.UPDATE,
+                VcblWordPermissionClient.DELETE,
             )
+        )
 }

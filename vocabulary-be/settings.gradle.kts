@@ -37,6 +37,8 @@ include("vocabulary-repo-common")
 include("vocabulary-repo-tests")
 include("vocabulary-repo-stubs")
 include("vocabulary-repo-cassandra")
+include("vocabulary-auth")
+
 
 
 

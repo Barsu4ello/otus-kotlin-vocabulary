@@ -12,7 +12,6 @@ fun ICorChainDsl<VcblContext>.repoPrepareCreate(title: String) = worker {
     on { state == VcblState.RUNNING }
     handle {
         wordRepoPrepare = wordValidated.copy()
-        // TODO будет реализовано в занятии по управлению пользвателями
-        wordRepoPrepare.ownerId = VcblUserId.NONE
+        wordRepoPrepare.ownerId = principal.id
     }
 }

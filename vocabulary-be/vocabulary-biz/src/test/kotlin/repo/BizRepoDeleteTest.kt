@@ -3,23 +3,27 @@ package ru.gorbunov.vocabulary.biz.repo
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.backend.repo.tests.WordRepositoryMock
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.VcblCorSettings
 import ru.gorbunov.vocabulary.common.models.*
 import ru.gorbunov.vocabulary.common.repo.DbWordResponseErr
 import ru.gorbunov.vocabulary.common.repo.DbWordResponseOk
+import ru.gorbunov.vocabulary.stubs.VcblWordStubCat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class BizRepoDeleteTest {
 
+    private val userId = VcblWordStubCat.WORD_CAT.ownerId
     private val command = VcblCommand.DELETE
     private val initWord = VcblWord(
         id = VcblWordId("123"),
         english = "cat",
         russian = "кот",
         partOfSpeech = VcblPartOfSpeech.NOUN,
+        ownerId = userId,
         lock = VcblWordLock("123-234-abc-ABC"),
     )
     private val repo = WordRepositoryMock(
@@ -55,6 +59,7 @@ class BizRepoDeleteTest {
             workMode = VcblWorkMode.TEST,
             wordRequest = wordToDelete,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(VcblState.FINISHING, ctx.state)
         assertTrue { ctx.errors.isEmpty() }

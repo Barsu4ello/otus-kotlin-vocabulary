@@ -1,6 +1,7 @@
 package ru.gorbunov.vocabulary.biz.validation
 
 import kotlinx.coroutines.test.runTest
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.VcblState
 import ru.gorbunov.vocabulary.common.models.VcblWordFilter
@@ -13,6 +14,7 @@ class ValidateSearchStringTest {
     @Test
     fun emptyString() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = ""))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.RUNNING, ctx.state)
         assertEquals(0, ctx.errors.size)
@@ -21,6 +23,7 @@ class ValidateSearchStringTest {
     @Test
     fun blankString() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = "  "))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.RUNNING, ctx.state)
         assertEquals(0, ctx.errors.size)
@@ -29,6 +32,7 @@ class ValidateSearchStringTest {
     @Test
     fun shortString() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = "c"))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.FAILING, ctx.state)
         assertEquals(1, ctx.errors.size)
@@ -38,6 +42,7 @@ class ValidateSearchStringTest {
     @Test
     fun normalString() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = "cat"))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.RUNNING, ctx.state)
         assertEquals(0, ctx.errors.size)
@@ -46,6 +51,7 @@ class ValidateSearchStringTest {
     @Test
     fun longString() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = "ca".repeat(51)))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.FAILING, ctx.state)
         assertEquals(1, ctx.errors.size)
@@ -55,6 +61,7 @@ class ValidateSearchStringTest {
     @Test
     fun combineDifferentLanguages() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordFilterValidating = VcblWordFilter(searchString = "catкот"))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.FAILING, ctx.state)
         assertEquals(1, ctx.errors.size)

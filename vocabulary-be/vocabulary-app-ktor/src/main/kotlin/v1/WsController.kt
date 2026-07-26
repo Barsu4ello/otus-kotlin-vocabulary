@@ -12,13 +12,14 @@ import ru.gorbunov.vocabulary.app.common.controllerHelper
 import ru.gorbunov.vocabulary.app.ktor.VcblAppSettings
 import ru.gorbunov.vocabulary.app.ktor.base.KtorWsSessionV1
 import ru.gorbunov.vocabulary.common.models.VcblCommand
+import ru.gorbunov.vocabulary.common.permissions.VcblPrincipalModel
 import ru.gorbunov.vocabulary.mappers.v1.fromTransport
 import ru.gorbunov.vocabulary.mappers.v1.toTransportInit
 import ru.gorbunov.vocabulary.mappers.v1.toTransportWord
 import kotlin.reflect.KClass
 
 private val clWsV1: KClass<*> = WebSocketSession::wsHandlerV1::class
-suspend fun WebSocketSession.wsHandlerV1(appSettings: VcblAppSettings) = with(KtorWsSessionV1(this)) {
+suspend fun WebSocketSession.wsHandlerV1(appSettings: VcblAppSettings, principal: VcblPrincipalModel) = with(KtorWsSessionV1(this)) {
     val sessions = appSettings.corSettings.wsSessions
     sessions.add(this)
 
@@ -27,6 +28,7 @@ suspend fun WebSocketSession.wsHandlerV1(appSettings: VcblAppSettings) = with(Kt
         {
             command = VcblCommand.INIT
             wsSession = this@with
+            this.principal = principal
         },
         { outgoing.send(Frame.Text(apiV1Mapper.writeValueAsString(toTransportInit()))) },
         clWsV1,
@@ -43,6 +45,7 @@ suspend fun WebSocketSession.wsHandlerV1(appSettings: VcblAppSettings) = with(Kt
                     val request = apiV1Mapper.readValue<IRequest>(frame.readText())
                     fromTransport(request)
                     wsSession = this@with
+                    this.principal = principal
                 },
                 {
                     val result = apiV1Mapper.writeValueAsString(toTransportWord())

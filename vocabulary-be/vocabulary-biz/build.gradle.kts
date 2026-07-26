@@ -9,6 +9,7 @@ dependencies {
 
     implementation(project(":vocabulary-common"))
     implementation(project(":vocabulary-stubs"))
+    implementation(project(":vocabulary-auth"))
 
     testImplementation(project(":vocabulary-repo-common"))
     testImplementation(project(":vocabulary-repo-tests"))

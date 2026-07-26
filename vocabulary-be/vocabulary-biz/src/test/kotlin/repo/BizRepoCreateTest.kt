@@ -3,6 +3,7 @@ package ru.gorbunov.vocabulary.biz.repo
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.backend.repo.tests.WordRepositoryMock
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.VcblCorSettings
 import ru.gorbunov.vocabulary.common.models.*
@@ -46,6 +47,7 @@ class BizRepoCreateTest {
                 partOfSpeech = VcblPartOfSpeech.NOUN,
             ),
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(VcblState.FINISHING, ctx.state)
         assertNotEquals(VcblWordId.NONE, ctx.wordResponse.id)

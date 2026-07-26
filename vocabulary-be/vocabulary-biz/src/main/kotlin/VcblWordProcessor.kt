@@ -2,6 +2,10 @@ package ru.gorbunov.vocabulary.biz
 
 import ru.gorbunov.vocabulary.biz.general.initStatus
 import ru.gorbunov.vocabulary.biz.general.operation
+import ru.gorbunov.vocabulary.biz.permissions.accessValidation
+import ru.gorbunov.vocabulary.biz.permissions.chainPermissions
+import ru.gorbunov.vocabulary.biz.permissions.frontPermissions
+import ru.gorbunov.vocabulary.biz.permissions.searchTypes
 import ru.gorbunov.vocabulary.biz.repo.checkLock
 import ru.gorbunov.vocabulary.biz.repo.initRepo
 import ru.gorbunov.vocabulary.biz.repo.prepareResult
@@ -44,6 +48,7 @@ class VcblWordProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 worker("Копируем поля в wordValidating") { wordValidating = wordRequest.copy() }
                 worker("Очистка id") { wordValidating.id = VcblWordId.NONE }
@@ -60,8 +65,10 @@ class VcblWordProcessor(
             chain {
                 title = "Логика сохранения"
                 repoPrepareCreate("Подготовка объекта для сохранения")
+                accessValidation("Вычисление прав доступа")
                 repoCreate("Создание объявления в БД")
             }
+            frontPermissions("Вычисление пользовательских разрешений для фронтенда")
             prepareResult("Подготовка ответа")
         }
         operation("Получить слово", VcblCommand.READ) {
@@ -71,6 +78,7 @@ class VcblWordProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 worker("Копируем поля в wordValidating") { wordValidating = wordRequest.copy() }
                 worker("Очистка id") { wordValidating.id = VcblWordId(wordValidating.id.asString().trim()) }
@@ -82,12 +90,14 @@ class VcblWordProcessor(
             chain {
                 title = "Логика чтения"
                 repoRead("Чтение слова из БД")
+                accessValidation("Вычисление прав доступа")
                 worker {
                     title = "Подготовка ответа для Read"
                     on { state == VcblState.RUNNING }
                     handle { wordRepoDone = wordRepoRead }
                 }
             }
+            frontPermissions("Вычисление пользовательских разрешений для фронтенда")
             prepareResult("Подготовка ответа")
         }
         operation("Изменить слово", VcblCommand.UPDATE) {
@@ -100,6 +110,7 @@ class VcblWordProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 worker("Копируем поля в wordValidating") { wordValidating = wordRequest.copy() }
                 worker("Очистка id") { wordValidating.id = VcblWordId(wordValidating.id.asString().trim()) }
@@ -121,10 +132,12 @@ class VcblWordProcessor(
             chain {
                 title = "Логика обновления"
                 repoRead("Чтение слова из БД")
+                accessValidation("Вычисление прав доступа")
                 checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareUpdate("Подготовка объекта для обновления")
                 repoUpdate("Обновление слова в БД")
             }
+            frontPermissions("Вычисление пользовательских разрешений для фронтенда")
             prepareResult("Подготовка ответа")
         }
         operation("Удалить слово", VcblCommand.DELETE) {
@@ -134,6 +147,7 @@ class VcblWordProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 worker("Копируем поля в wordValidating") { wordValidating = wordRequest.copy() }
                 worker("Очистка id") { wordValidating.id = VcblWordId(wordValidating.id.asString().trim()) }
@@ -148,10 +162,12 @@ class VcblWordProcessor(
             chain {
                 title = "Логика удаления"
                 repoRead("Чтение слова из БД")
+                accessValidation("Вычисление прав доступа")
                 checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareDelete("Подготовка объекта для удаления")
                 repoDelete("Удаление слова из БД")
             }
+            frontPermissions("Вычисление пользовательских разрешений для фронтенда")
             prepareResult("Подготовка ответа")
         }
         operation("Поиск слова", VcblCommand.SEARCH) {
@@ -161,13 +177,17 @@ class VcblWordProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 worker("Копируем поля в wordFilterValidating") { wordFilterValidating = wordFilterRequest.copy() }
                 validateSearchStringLength("Валидация длины строки поиска в фильтре")
 
                 finishWordFilterValidation("Успешное завершение процедуры валидации")
             }
+            searchTypes("Подготовка поискового запроса")
+
             repoSearch("Поиск слов в БД по фильтру")
+            frontPermissions("Вычисление пользовательских разрешений для фронтенда")
             prepareResult("Подготовка ответа")
         }
     }.build()

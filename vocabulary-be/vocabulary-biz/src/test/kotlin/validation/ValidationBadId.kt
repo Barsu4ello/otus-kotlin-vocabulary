@@ -2,6 +2,7 @@ package ru.gorbunov.vocabulary.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.VcblCommand
 import ru.gorbunov.vocabulary.common.models.VcblPartOfSpeech
@@ -22,6 +23,7 @@ fun validationIdCorrect(command: VcblCommand, processor: VcblWordProcessor) = ru
         workMode = VcblWorkMode.TEST,
         wordRequest = VcblWordStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -36,6 +38,7 @@ fun validationIdTrim(command: VcblCommand, processor: VcblWordProcessor) = runTe
             id = VcblWordId(" \n\t ${id.asString()} \n\t ")
         },
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -54,6 +57,7 @@ fun validationIdEmpty(command: VcblCommand, processor: VcblWordProcessor) = runT
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)
@@ -75,6 +79,7 @@ fun validationIdFormat(command: VcblCommand, processor: VcblWordProcessor) = run
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)

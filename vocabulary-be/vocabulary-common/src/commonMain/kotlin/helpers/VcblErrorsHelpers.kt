@@ -1,8 +1,11 @@
 package ru.gorbunov.vocabulary.common.helpers
 
 import ru.gorbunov.vocabulary.common.VcblContext
+import ru.gorbunov.vocabulary.common.models.VcblCommand
 import ru.gorbunov.vocabulary.common.models.VcblError
 import ru.gorbunov.vocabulary.common.models.VcblState
+import ru.gorbunov.vocabulary.common.models.VcblWordId
+import ru.gorbunov.vocabulary.common.permissions.VcblPrincipalModel
 import ru.gorbunov.vocabulary.logging.common.LogLevel
 
 fun Throwable.asVcblError(
@@ -57,4 +60,16 @@ inline fun errorSystem(
     message = "System error occurred. Our stuff has been informed, please retry later",
     level = level,
     exception = e,
+)
+
+fun accessViolation(
+    principal: VcblPrincipalModel,
+    operation: VcblCommand,
+    wordId: VcblWordId = VcblWordId.NONE,
+) = VcblError(
+    code = "access-${operation.name.lowercase()}",
+    group = "access",
+    message = "User ${principal.genericName()} (${principal.id.asString()}) is not allowed to perform operation ${operation.name}"
+            + if (wordId != VcblWordId.NONE) " on word ${wordId.asString()}" else "",
+    level = LogLevel.ERROR,
 )

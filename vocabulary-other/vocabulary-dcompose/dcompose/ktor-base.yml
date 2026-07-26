@@ -1,0 +1,22 @@
+services:
+  ktor-base:
+    image: vocabulary-app-ktor-jvm:0.0.1
+    ports:
+      - "8080"
+    environment:
+      DB_TYPE_PROD: "cassandra"
+      VCBLWORDS_HOST: "cassandra"
+      VCBLWORDS_PORT: 9042
+      VCBLWORDS_KEYSPACE: "vocabulary"
+      VCBLWORDS_USER: "cassandra"
+      VCBLWORDS_PASS: "cassandra"
+      VCBLWORDS_LOGGER: "logback"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+      liquibase:
+        condition: service_completed_successfully
+      cassandra-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/" ]

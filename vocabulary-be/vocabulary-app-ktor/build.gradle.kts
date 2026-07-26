@@ -35,7 +35,6 @@ dependencies {
     implementation(project(":vocabulary-common"))
     implementation(project(":vocabulary-app-common"))
     implementation(project(":vocabulary-biz"))
-
     implementation(project(":vocabulary-api-v1-jackson"))
     implementation(project(":vocabulary-api-v1-mappers"))
     implementation(project(":vocabulary-repo-cassandra"))
@@ -43,6 +42,7 @@ dependencies {
     implementation(project(":vocabulary-repo-inmemory"))
     implementation(project(":vocabulary-repo-stubs"))
     implementation(project(":vocabulary-stubs"))
+    implementation(project(":vocabulary-auth"))
 
     implementation("ru.gorbunov.vocabulary.libs:vocabulary-lib-logging-common")
     implementation("ru.gorbunov.vocabulary.libs:vocabulary-lib-logging-logback")

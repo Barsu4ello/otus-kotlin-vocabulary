@@ -5,6 +5,8 @@ import io.ktor.client.call.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import ru.gorbunov.vocabulary.common.permissions.VcblUserGroups
+import ru.gorbunov.vocabulary.e2e.be.auth.addAuth
 import ru.gorbunov.vocabulary.e2e.be.base.DockerCompose
 
 /**
@@ -24,6 +26,7 @@ class RestClient(dockerCompose: DockerCompose) : Client {
                 append(HttpHeaders.ContentType, ContentType.Application.Json)
             }
             accept(ContentType.Application.Json)
+            addAuth(groups = listOf(VcblUserGroups.USER))
             setBody(request)
 
         }.call

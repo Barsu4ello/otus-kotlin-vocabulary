@@ -6,6 +6,3 @@ services:
     #      - ./envoy/certs:/etc/envoy/certs  # Mount your TLS certificates
     ports:
       - "8080:8080"
-    depends_on:
-      keycloak:
-        condition: service_healthy

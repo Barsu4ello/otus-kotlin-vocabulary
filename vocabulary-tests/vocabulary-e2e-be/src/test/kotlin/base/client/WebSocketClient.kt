@@ -3,9 +3,12 @@ package ru.gorbunov.vocabulary.e2e.be.base.client
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.websocket.*
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.withTimeout
+import ru.gorbunov.vocabulary.common.permissions.VcblUserGroups
+import ru.gorbunov.vocabulary.e2e.be.auth.addAuth
 import ru.gorbunov.vocabulary.e2e.be.base.DockerCompose
 
 /**
@@ -24,7 +27,12 @@ class WebSocketClient(dockerCompose: DockerCompose) : Client {
         }.build().toString()
 
         var response = ""
-        client.webSocket(url) {
+        client.webSocket(
+            urlString = url,
+            request = {
+                addAuth(groups = listOf(VcblUserGroups.USER))
+            }
+        ) {
             withTimeout(3000) {
                 val incame = incoming.receive() as Frame.Text
                 val data = incame.readText()

@@ -1,6 +1,7 @@
 package ru.gorbunov.vocabulary.biz.validation
 
 import kotlinx.coroutines.test.runTest
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.VcblPartOfSpeech
 import ru.gorbunov.vocabulary.common.models.VcblState
@@ -14,6 +15,7 @@ class ValidatePartOfSpeechTest {
     @Test
     fun partOfSpeechIsNone() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordValidating = VcblWord(partOfSpeech = VcblPartOfSpeech.NONE))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.FAILING, ctx.state)
         assertEquals(1, ctx.errors.size)
@@ -25,6 +27,7 @@ class ValidatePartOfSpeechTest {
     @Test
     fun normalPartOfSpeech() = runTest {
         val ctx = VcblContext(state = VcblState.RUNNING, wordValidating = VcblWord(partOfSpeech = VcblPartOfSpeech.VERB))
+        ctx.addTestPrincipal()
         chain.exec(ctx)
         assertEquals(VcblState.RUNNING, ctx.state)
         assertEquals(0, ctx.errors.size)

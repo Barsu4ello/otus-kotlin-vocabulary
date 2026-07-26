@@ -10,6 +10,8 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME_URL: "http://localhost:8080/"
       #      KEYCLOAK_IMPORT: "/tmp/realm-export.json"
     healthcheck:
       test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000;echo -e 'HEAD /health/ready HTTP/1.1\r\nHost: localhost:9000\r\nConnection: close\r\n\r\n' >&3;cat <&3" ]
@@ -19,6 +21,5 @@ services:
     command:
       - start-dev
       - --import-realm
-      - --hostname=localhost
+      - --proxy-headers=forwarded
       - --hostname-strict=false
-      - --proxy-headers=xforwarded

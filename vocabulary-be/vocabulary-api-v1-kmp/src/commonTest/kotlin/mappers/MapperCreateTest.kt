@@ -26,6 +26,7 @@ class MapperCreateTest {
             id = VcblWordId.NONE
             ownerId = VcblUserId.NONE
             lock = VcblWordLock.NONE
+            permissionsClient.clear()
         }
 
         val context = VcblContext()

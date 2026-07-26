@@ -1,0 +1,28 @@
+services:
+
+  envoy:
+    extends:
+      file: envoy-base.yml
+      service: envoy-base
+
+  keycloak:
+    extends:
+      file: keycloak-base.yml
+      service: keycloak-base
+
+  cassandra:
+    extends:
+      file: cassandra-base.yml
+      service: keycloak-base
+    ports:
+      - "9042:9042"
+
+  cassandra-init:
+    extends:
+      file: cassandra-init.yml
+      service: keycloak-base
+
+  liquibase:
+    extends:
+      file: liquibase-base.yml
+      service: keycloak-base

@@ -2,6 +2,7 @@ package ru.gorbunov.vocabulary.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.*
 import ru.gorbunov.vocabulary.stubs.VcblWordStub
@@ -24,6 +25,7 @@ fun validationEnglishCorrect(command: VcblCommand, processor: VcblWordProcessor)
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -43,6 +45,7 @@ fun validationEnglishTrim(command: VcblCommand, processor: VcblWordProcessor) = 
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -62,6 +65,7 @@ fun validationEnglishEmpty(command: VcblCommand, processor: VcblWordProcessor) =
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)
@@ -83,6 +87,7 @@ fun validationEnglishSymbols(command: VcblCommand, processor: VcblWordProcessor)
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)

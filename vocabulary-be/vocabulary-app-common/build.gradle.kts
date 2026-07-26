@@ -5,12 +5,15 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(libs.coroutines.core)
-    implementation(libs.coroutines.test)
+    implementation(libs.jackson.kotlin)
+
 
     implementation(project(":vocabulary-common"))
     implementation(project(":vocabulary-api-log1"))
     implementation(project(":vocabulary-api-v1-kmp"))
     implementation(project(":vocabulary-biz"))
 
-    implementation(kotlin("test"))
+    testImplementation(kotlin("test"))
+    testImplementation(libs.coroutines.test)
+
 }

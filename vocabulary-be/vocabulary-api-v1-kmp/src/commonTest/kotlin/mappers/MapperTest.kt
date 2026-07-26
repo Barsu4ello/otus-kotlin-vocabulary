@@ -27,6 +27,7 @@ class MapperTest {
             id = VcblWordId.NONE
             ownerId = VcblUserId.NONE
             lock = VcblWordLock.NONE
+            permissionsClient.clear()
         }
 
 

@@ -13,9 +13,12 @@ import io.ktor.server.plugins.calllogging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.request.header
 import io.ktor.server.response.respondText
 import io.ktor.server.websocket.*
 import org.slf4j.event.Level
+import ru.gorbunov.vocabulary.app.common.AUTH_HEADER
+import ru.gorbunov.vocabulary.app.common.jwt2principal
 import ru.gorbunov.vocabulary.app.ktor.plugins.initAppSettings
 import ru.gorbunov.vocabulary.app.ktor.v1.v1Word
 import ru.gorbunov.vocabulary.app.ktor.v1.wsHandlerV1
@@ -65,7 +68,8 @@ fun Application.moduleJvm(
             v1Word(appSettings)
             webSocket("/ws") {
                 println(">>> WebSocket route entered")
-                wsHandlerV1(appSettings)
+                val principal = call.request.header(AUTH_HEADER).jwt2principal()
+                wsHandlerV1(appSettings, principal)
             }
         }
     }

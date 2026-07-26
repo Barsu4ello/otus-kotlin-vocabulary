@@ -29,6 +29,7 @@ class MapperUpdateTest {
         )
         val expected = VcblWordStub.prepareResult {
             ownerId = VcblUserId.NONE
+            permissionsClient.clear()
         }
 
         val context = VcblContext()

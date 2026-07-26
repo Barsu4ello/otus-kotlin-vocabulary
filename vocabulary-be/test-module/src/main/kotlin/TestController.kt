@@ -1,4 +1,4 @@
-package ru.otus.kotlin
+package ru.gorbunov.kotlin
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping

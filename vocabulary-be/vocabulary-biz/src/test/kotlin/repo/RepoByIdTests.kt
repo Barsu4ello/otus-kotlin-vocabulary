@@ -3,6 +3,7 @@ package ru.gorbunov.vocabulary.biz.repo
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.backend.repo.tests.WordRepositoryMock
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.VcblCorSettings
 import ru.gorbunov.vocabulary.common.models.*
@@ -43,6 +44,7 @@ fun repoNotFoundTest(command: VcblCommand) = runTest {
             lock = VcblWordLock("123"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(VcblState.FAILING, ctx.state)
     assertEquals(VcblWord(), ctx.wordResponse)

@@ -2,6 +2,7 @@ package ru.gorbunov.vocabulary.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.VcblCommand
 import ru.gorbunov.vocabulary.common.models.VcblPartOfSpeech
@@ -29,6 +30,7 @@ fun validationRussianCorrect(command: VcblCommand, processor: VcblWordProcessor)
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -48,6 +50,7 @@ fun validationRussianTrim(command: VcblCommand, processor: VcblWordProcessor) = 
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -67,6 +70,7 @@ fun validationRussianEmpty(command: VcblCommand, processor: VcblWordProcessor) =
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)
@@ -88,6 +92,7 @@ fun validationRussianSymbols(command: VcblCommand, processor: VcblWordProcessor)
             lock = VcblWordLock("123-234-abc-ABC"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)

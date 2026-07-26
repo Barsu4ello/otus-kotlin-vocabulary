@@ -6,6 +6,6 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(libs.coroutines.core)
 
-    implementation(kotlin("test-junit"))
-    implementation(libs.coroutines.test)
+    testImplementation(kotlin("test-junit"))
+    testImplementation(libs.coroutines.test)
 }

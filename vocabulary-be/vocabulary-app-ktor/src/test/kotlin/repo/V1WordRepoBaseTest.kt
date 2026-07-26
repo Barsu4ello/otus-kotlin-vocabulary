@@ -9,9 +9,11 @@ import io.ktor.serialization.jackson.*
 import io.ktor.server.testing.*
 import ru.gorbunov.vocabulary.api.v1.models.*
 import ru.gorbunov.vocabulary.app.ktor.VcblAppSettings
+import ru.gorbunov.vocabulary.app.ktor.auth.addAuth
 import ru.gorbunov.vocabulary.app.ktor.moduleJvm
 import ru.gorbunov.vocabulary.common.models.VcblWordId
 import ru.gorbunov.vocabulary.common.models.VcblWordLock
+import ru.gorbunov.vocabulary.common.permissions.VcblUserGroups
 import ru.gorbunov.vocabulary.mappers.v1.toTransportCreate
 import ru.gorbunov.vocabulary.mappers.v1.toTransportDelete
 import ru.gorbunov.vocabulary.mappers.v1.toTransportRead
@@ -139,6 +141,7 @@ abstract class V1WordRepoBaseTest {
         val response = client.post("/v1/word/$func") {
             contentType(ContentType.Application.Json)
             header("X-Trace-Id", "12345")
+            addAuth(groups = listOf(VcblUserGroups.USER))
             setBody(request)
         }
         function(response)

@@ -1,0 +1,6 @@
+services:
+  cassandra-init-base:
+    image: cassandra:5.0.3
+    entrypoint: [ "/init.sh" ]
+    volumes:
+      - ./volumes/cassandra/cassandra-init-data.sh:/init.sh

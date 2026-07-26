@@ -1,0 +1,94 @@
+services:
+  app:
+    image: vocabulary-app-ktor-jvm:0.0.1
+    ports:
+      - "8080"
+    environment:
+      DB_TYPE_PROD: "cassandra"
+      VCBLWORDS_HOST: "cassandra"
+      VCBLWORDS_PORT: 9042
+      VCBLWORDS_KEYSPACE: "vocabulary"
+      VCBLWORDS_USER: "cassandra"
+      VCBLWORDS_PASS: "cassandra"
+      VCBLWORDS_LOGGER: "logback"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+      liquibase:
+        condition: service_completed_successfully
+      cassandra-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/" ]
+
+  envoy:
+    image: envoyproxy/envoy:v1.29.0  # Use the official Envoy proxy image
+    volumes:
+      - ./volumes/envoy/envoy.yaml:/etc/envoy/envoy.yaml  # Mount your Envoy configuration file
+    #      - ./envoy/certs:/etc/envoy/certs  # Mount your TLS certificates
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD-SHELL", "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1" ]
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.4
+    #    ports:
+    #      - "8081:8080"
+    volumes:
+      - ./volumes/keycloak/import:/opt/keycloak/data/import
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME_URL: "http://localhost:8080/"
+    healthcheck:
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e \"GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n\" >&3;grep \"HTTP/1.1 200 OK\" <&3" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command:
+      - start-dev
+      - --hostname-port=8081
+      - --import-realm
+      - --proxy-headers=forwarded
+      - --hostname-strict=false
+
+  cassandra:
+    image: cassandra:5.0.3
+    ports:
+      - "9042"
+    environment:
+      CASSANDRA_DC: "dc1"
+      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
+    healthcheck:
+      test: [ "CMD-SHELL", "cqlsh -u cassandra -p cassandra -e 'SELECT key FROM system.local'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+    volumes:
+      - ./volumes/cassandra/cassandra.yaml:/opt/cassandra/conf/cassandra.yaml
+
+  cassandra-init:
+    image: cassandra:5.0.3
+    entrypoint: [ "/init.sh" ]
+    volumes:
+      - ./volumes/cassandra/cassandra-init-data.sh:/init.sh
+    depends_on:
+      cassandra:
+        condition: service_healthy
+
+  liquibase:
+    image: "vocabulary-migration-cs:0.0.1"
+    environment:
+      LIQUIBASE_COMMAND_URL: jdbc:cassandra://cassandra:9042/vocabulary?ssl=false&compliancemode=Liquibase&localdatacenter=dc1
+      LIQUIBASE_COMMAND_USERNAME: cassandra
+      LIQUIBASE_COMMAND_PASSWORD: cassandra
+      LIQUIBASE_LIQUIBASE_SCHEMA_NAME: vocabulary
+    depends_on:
+      cassandra-init:
+        condition: service_completed_successfully

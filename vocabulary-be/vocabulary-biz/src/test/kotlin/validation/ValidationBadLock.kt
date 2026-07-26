@@ -2,6 +2,7 @@ package ru.gorbunov.vocabulary.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import ru.gorbunov.vocabulary.biz.VcblWordProcessor
+import ru.gorbunov.vocabulary.biz.addTestPrincipal
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.VcblCommand
 import ru.gorbunov.vocabulary.common.models.VcblPartOfSpeech
@@ -22,6 +23,7 @@ fun validationLockCorrect(command: VcblCommand, processor: VcblWordProcessor) = 
         workMode = VcblWorkMode.TEST,
         wordRequest = VcblWordStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -36,6 +38,7 @@ fun validationLockTrim(command: VcblCommand, processor: VcblWordProcessor) = run
             lock = VcblWordLock(" \n\t 123-234-abc-ABC \n\t ")
         },
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(VcblState.FAILING, ctx.state)
@@ -54,6 +57,7 @@ fun validationLockEmpty(command: VcblCommand, processor: VcblWordProcessor) = ru
             lock = VcblWordLock(""),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)
@@ -75,6 +79,7 @@ fun validationLockFormat(command: VcblCommand, processor: VcblWordProcessor) = r
             lock = VcblWordLock("!@#\$%^&*(),.{}"),
         ),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(VcblState.FAILING, ctx.state)

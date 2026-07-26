@@ -1,0 +1,16 @@
+services:
+  cassandra-base:
+    image: cassandra:5.0.3
+    ports:
+      - "9042"
+    environment:
+      CASSANDRA_DC: "dc1"
+      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
+    healthcheck:
+      test: [ "CMD-SHELL", "cqlsh -u cassandra -p cassandra -e 'SELECT key FROM system.local'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+    volumes:
+      - ./volumes/cassandra/cassandra.yaml:/opt/cassandra/conf/cassandra.yaml

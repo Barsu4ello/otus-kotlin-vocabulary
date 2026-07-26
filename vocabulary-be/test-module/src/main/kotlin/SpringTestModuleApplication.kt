@@ -1,4 +1,4 @@
-package ru.otus.kotlin
+package ru.gorbunov.kotlin
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
