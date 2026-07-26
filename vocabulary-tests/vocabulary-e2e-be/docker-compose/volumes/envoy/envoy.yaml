@@ -18,6 +18,11 @@ static_resources:
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
                 stat_prefix: ingress_http
+
+                upgrade_configs:
+                  - upgrade_type: websocket
+                    enabled: true
+
                 route_config:
                   name: local_route
                   virtual_hosts:
@@ -27,6 +32,8 @@ static_resources:
                         - match: { path: "/" }
                           route: { cluster: app }
                         - match: { prefix: "/v1/word/" }
+                          route: { cluster: app }
+                        - match: { prefix: "/v1/ws" }
                           route: { cluster: app }
                         - match: { prefix: "/admin/" }
                           route: { cluster: keycloak }
@@ -56,12 +63,19 @@ static_resources:
                               timeout: 5s
                             cache_duration:
                               seconds: 300
+                          from_headers:
+                            - name: Authorization
+                              value_prefix: "Bearer "
+                          from_params:
+                            - access_token
                           # Пробрасываем JWT в заголовок запроса
                           forward: true
                           forward_payload_header: x-jwt-payload
                       rules:
-                      - match: { prefix: /v1/word/ }
-                        requires: { provider_name: keycloak_provider }
+                        - match: { prefix: /v1/word/ }
+                          requires: { provider_name: keycloak_provider }
+                        - match: { prefix: /v1/ws }
+                          requires: { provider_name: keycloak_provider }
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
