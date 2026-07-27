@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import ru.gorbunov.vocabulary.e2e.be.base.BaseContainerTest
 import ru.gorbunov.vocabulary.e2e.be.base.client.Client
-import ru.gorbunov.vocabulary.e2e.be.base.client.RestAuthClient
 import ru.gorbunov.vocabulary.e2e.be.base.client.WebSocketAuthClient
-import ru.gorbunov.vocabulary.e2e.be.docker.KtorJvmCsKeycloakDockerCompose
 import ru.gorbunov.vocabulary.e2e.be.docker.KtorJvmCsKeycloakWsDockerCompose
 import ru.gorbunov.vocabulary.e2e.be.scenarios.v1.ScenariosV1
 import ru.gorbunov.vocabulary.api.v1.models.WordDebug as WordDebugV1

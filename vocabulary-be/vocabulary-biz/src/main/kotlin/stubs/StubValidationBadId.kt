@@ -11,7 +11,7 @@ import ru.gorbunov.vocabulary.cor.worker
 fun ICorChainDsl<VcblContext>.stubValidationBadId(title: String) = worker {
     this.title = title
     this.description = """
-        Кейс ошибки валидации для идентификатора объявления
+        Кейс ошибки валидации для идентификатора слова
     """.trimIndent()
     on { stubCase == VcblStubs.BAD_ID && state == VcblState.RUNNING }
     handle {

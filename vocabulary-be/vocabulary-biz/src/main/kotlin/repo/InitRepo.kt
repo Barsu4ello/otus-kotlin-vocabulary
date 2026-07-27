@@ -15,9 +15,9 @@ fun ICorChainDsl<VcblContext>.initRepo(title: String) = worker {
         Вычисление основного рабочего репозитория в зависимости от запрошенного режима работы        
     """.trimIndent()
     handle {
-        wordRepo = when {
-            workMode == VcblWorkMode.TEST -> corSettings.repoTest
-            workMode == VcblWorkMode.STUB -> corSettings.repoStub
+        wordRepo = when (workMode) {
+            VcblWorkMode.TEST -> corSettings.repoTest
+            VcblWorkMode.STUB -> corSettings.repoStub
             else -> corSettings.repoProd
         }
         if (workMode != VcblWorkMode.STUB && wordRepo == IRepoWord.NONE) fail(

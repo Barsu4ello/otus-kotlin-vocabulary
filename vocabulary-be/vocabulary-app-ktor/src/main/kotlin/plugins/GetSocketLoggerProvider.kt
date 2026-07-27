@@ -1,7 +1,6 @@
 package ru.gorbunov.vocabulary.app.ktor.plugins
 
 import io.ktor.server.application.*
-import ru.gorbunov.vocabulary.logging.common.IVcblLogWrapper
 import ru.gorbunov.vocabulary.logging.common.VcblLoggerProvider
 import ru.gorbunov.vocabulary.logging.socket.SocketLoggerSettings
 import ru.gorbunov.vocabulary.logging.socket.vcblLoggerSocket

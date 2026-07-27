@@ -14,7 +14,7 @@ import ru.gorbunov.vocabulary.stubs.VcblWordStub
 fun ICorChainDsl<VcblContext>.stubUpdateSuccess(title: String, corSettings: VcblCorSettings) = worker {
     this.title = title
     this.description = """
-        Кейс успеха для изменения объявления
+        Кейс успеха для изменения слова
     """.trimIndent()
     on { stubCase == VcblStubs.SUCCESS && state == VcblState.RUNNING }
     val logger = corSettings.loggerProvider.logger("stubUpdateSuccess")

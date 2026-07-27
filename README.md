@@ -34,3 +34,61 @@ iii. [Архитектурные схемы](docs/arch-scheme.md) (💬 чуть
 [build-plugin](./build-plugin) Модуль с плагинами  
 [BuildPluginJvm](./build-plugin/src/main/kotlin/BuildPluginJvm.kt) Плагин для сборки проектов JVM  
 [BuildPluginMultiplarform](./build-plugin/src/main/kotlin/BuildPluginMultiplatform.kt) Плагин для сборки мультиплатформенных проектов
+
+## Проектные модули
+
+## Мониторинг и логирование
+
+1. [deploy](./deploy) - Инструменты мониторинга и деплоя
+2. [vocabulary-lib-logging-common](vocabulary-libs/vocabulary-lib-logging-common) - Общие объявления для
+   логирования
+3. [vocabulary-lib-logging-kermit](vocabulary-libs/vocabulary-lib-logging-kermit) - Библиотека логирования
+   на базе библиотеки
+   Kermit
+4. [vocabulary-lib-logging-logback](vocabulary-libs/vocabulary-lib-logging-logback) - Библиотека логирования
+   на базе библиотеки Logback
+5. [vocabulary-lib-logging-socket](vocabulary-libs/vocabulary-lib-logging-socket) - Библиотека логирования
+   на базе TCP-сокетов
+
+### Транспортные модели, API
+
+1. [specs](specs) - описание API в форме OpenAPI-спецификаций
+2. [vocabulary-api-v1-jackson](vocabulary-be/vocabulary-api-v1-jackson) - Генерация первой версии
+   транспортных модеелй с Jackson
+3. [vocabulary-api-v1-mappers](vocabulary-be/vocabulary-api-v1-mappers) - Мапперы из API v1 во внутренние
+   модели
+4. [vocabulary-api-v1-kmp](vocabulary-be/vocabulary-api-v1-kmp) - Генерация первой версии транспортных
+   моделей с KMP
+5. [vocabulary-common](vocabulary-be/vocabulary-common) - модуль с общими классами для модулей проекта. В
+   частности, там располагаются внутренние модели и контекст.
+6. [vocabulary-mappers-log1](vocabulary-be/vocabulary-api-log1) - Мапер между внутренними моделями и
+   моделями логирования первой версии
+
+### Фреймворки и транспорты
+
+1[vocabulary-app-ktor](vocabulary-be/vocabulary-app-ktor) - Приложение на Ktor
+
+### Модули бизнес-логики
+
+1. [vocabulary-stubs](vocabulary-be/vocabulary-stubs) - Стабы для ответов сервиса
+2. [vocabulary-biz](vocabulary-be/vocabulary-biz) - Модуль бизнес-логики приложения: обслуживание стабов,
+   валидация, работа с БД
+
+## Библиотеки
+
+### Мониторинг и логирование
+
+1. [deploy](deploy) - Инструменты мониторинга и деплоя
+2. [vocabulary-lib-logging-common](vocabulary-libs/vocabulary-lib-logging-common) - Общие объявления для
+   логирования
+3. [vocabulary-lib-logging-logback](vocabulary-libs/vocabulary-lib-logging-logback) - Библиотека логирования
+   на базе библиотеки Logback
+4. [vocabulary-lib-logging-socket](vocabulary-libs/vocabulary-lib-logging-socket) - Библиотека логирования
+   на базе библиотеки Ktor и протокола TCP socket
+
+## Тестирование
+
+### Сквозные/интеграционные тесты
+
+1. [vocabulary-e2e-be](vocabulary-tests/vocabulary-e2e-be) - Сквозные/интеграционные тесты для бэкенда
+   системы

@@ -23,10 +23,9 @@ import ru.gorbunov.vocabulary.app.ktor.plugins.initAppSettings
 import ru.gorbunov.vocabulary.app.ktor.v1.v1Word
 import ru.gorbunov.vocabulary.app.ktor.v1.wsHandlerV1
 
-// function with config (application.conf)
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
-@Suppress("unused") // Referenced in application.conf
+@Suppress("unused")
 fun Application.moduleJvm(
     appSettings: VcblAppSettings = initAppSettings(),
 ) {

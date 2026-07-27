@@ -11,8 +11,6 @@ dependencies {
 
     implementation(libs.coroutines.core)
     implementation(libs.db.cache4k)
-//    implementation(libs.uuid)
 
     implementation(kotlin("test-junit"))
-//    implementation(libs.coroutines.test)
 }

@@ -2,7 +2,6 @@ package ru.gorbunov.vocabulary.biz.repo
 
 import ru.gorbunov.vocabulary.common.VcblContext
 import ru.gorbunov.vocabulary.common.models.VcblState
-import ru.gorbunov.vocabulary.common.models.VcblUserId
 import ru.gorbunov.vocabulary.cor.ICorChainDsl
 import ru.gorbunov.vocabulary.cor.worker
 

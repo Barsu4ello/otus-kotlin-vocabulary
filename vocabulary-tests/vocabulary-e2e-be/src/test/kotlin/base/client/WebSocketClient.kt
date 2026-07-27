@@ -3,7 +3,6 @@ package ru.gorbunov.vocabulary.e2e.be.base.client
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.websocket.*
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.withTimeout

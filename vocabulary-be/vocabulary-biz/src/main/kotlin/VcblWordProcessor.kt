@@ -66,7 +66,7 @@ class VcblWordProcessor(
                 title = "Логика сохранения"
                 repoPrepareCreate("Подготовка объекта для сохранения")
                 accessValidation("Вычисление прав доступа")
-                repoCreate("Создание объявления в БД")
+                repoCreate("Создание слова в БД")
             }
             frontPermissions("Вычисление пользовательских разрешений для фронтенда")
             prepareResult("Подготовка ответа")

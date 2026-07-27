@@ -8,7 +8,6 @@ import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
-import ru.gorbunov.vocabulary.app.common.AUTH_HEADER
 import ru.gorbunov.vocabulary.e2e.be.auth.getToken
 import ru.gorbunov.vocabulary.e2e.be.base.DockerCompose
 

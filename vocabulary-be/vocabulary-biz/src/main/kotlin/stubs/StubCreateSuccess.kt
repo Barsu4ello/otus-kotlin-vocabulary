@@ -13,7 +13,7 @@ import ru.gorbunov.vocabulary.stubs.VcblWordStub
 fun ICorChainDsl<VcblContext>.stubCreateSuccess(title: String, corSettings: VcblCorSettings) = worker {
     this.title = title
     this.description = """
-        Кейс успеха для создания объявления
+        Кейс успеха для создания слова
     """.trimIndent()
     on { stubCase == VcblStubs.SUCCESS && state == VcblState.RUNNING }
     val logger = corSettings.loggerProvider.logger("stubCreateSuccess")

@@ -14,10 +14,10 @@ fun ICorChainDsl<VcblContext>.accessValidation(title: String) = chain {
     this.title = title
     description = "Вычисление прав доступа по группе принципала и таблице прав доступа"
     on { state == VcblState.RUNNING }
-    worker("Вычисление отношения объявления к принципалу") {
+    worker("Вычисление отношения слова к принципалу") {
         wordRepoRead.principalRelations = wordRepoRead.resolveRelationsTo(principal)
     }
-    worker("Вычисление доступа к объявлению") {
+    worker("Вычисление доступа к слову") {
         permitted = checkPermitted(command, wordRepoRead.principalRelations, permissionsChain)
     }
     worker {

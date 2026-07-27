@@ -10,7 +10,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-
 abstract class RepoWordReadTest {
     abstract val repo: IRepoWordInitializable
     protected open val readSucc = initObjects[0]
