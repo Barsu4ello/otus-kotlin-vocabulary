@@ -1,0 +1,67 @@
+services:
+
+  app:
+    extends:
+      file: ktor-base.yml
+      service: ktor-base
+    depends_on:
+      fluent-bit:
+        condition: service_started
+      cassandra:
+        condition: service_healthy
+      liquibase:
+        condition: service_completed_successfully
+      cassandra-init:
+        condition: service_completed_successfully
+
+  envoy:
+    extends:
+      file: envoy-base.yml
+      service: envoy-base
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
+  keycloak:
+    extends:
+      file: keycloak-base.yml
+      service: keycloak-base
+
+  cassandra:
+    extends:
+      file: cassandra-base.yml
+      service: cassandra-base
+
+  cassandra-init:
+    extends:
+      file: cassandra-init.yml
+      service: cassandra-init-base
+    depends_on:
+      cassandra:
+        condition: service_healthy
+
+  liquibase:
+    extends:
+      file: liquibase-base.yml
+      service: liquibase-base
+    depends_on:
+      cassandra-init:
+        condition: service_completed_successfully
+
+  fluent-bit:
+    extends:
+      file: fluent-bit-base.yml
+      service: fluent-bit-base
+
+  opensearch:
+    extends:
+      file: open-search-base.yml
+      service: opensearch-base
+
+  dashboards:
+    extends:
+      file: dashboards-base.yml
+      service: dashboards-base
+
+volumes:
+  opensearch-data:

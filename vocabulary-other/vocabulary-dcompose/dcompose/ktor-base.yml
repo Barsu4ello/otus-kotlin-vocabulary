@@ -11,6 +11,16 @@ services:
       VCBLWORDS_USER: "cassandra"
       VCBLWORDS_PASS: "cassandra"
       VCBLWORDS_LOGGER: "logback"
+    logging:
+      # используемый драйвер логгирования
+      driver: "fluentd"
+      options:
+        # куда посылать лог-сообщения, необходимо чтобы адрес
+        # совпадал с настройками плагина forward
+        fluentd-address: host.docker.internal:24224
+        # теги используются для маршрутизации лог-сообщений, тема
+        # маршрутизации будет рассмотрена ниже
+        tag: app.logs
     depends_on:
       cassandra:
         condition: service_healthy
